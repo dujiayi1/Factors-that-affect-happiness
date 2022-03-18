@@ -21,9 +21,9 @@ library(tidyverse)
 ```
 
 # Introduction
-Different aspects of the Canadian society has entered a relatively stable stage in the past few decades, such as its economy and politics. However, it doesn’t mean that the Canadians haven’t been experiencing changes that drastically affect their lifestyles. Factors including social policies and technology advancements have greatly shift the Canadians’ ideology, values, and one of the most common change is their attitude towards marriage. Surveys have shown that more than half of the Canadians see no reasons in getting legally married. They tend to form common low relationships or simply stay single, because from their perspectives, it seemed like marriages are more likely to end up in a mess than happiness.
+Different aspects of the Canadian society has entered a relatively stable stage in the past few decades, such as its economy and politics. However, it doesn’t mean that the Canadians haven’t been experiencing changes that drastically affect their lifestyles. Factors including social policies and technology advancements have greatly shift the Canadians’ ideology, values, and one of the most common change is their attitude towards marriage. Surveys have shown that more than half of the Canadians see no reasons in getting legally married [@citeintro]. They tend to form common low relationships or simply stay single, because from their perspectives, it seemed like marriages are more likely to end up in a mess than happiness.
 
-The General Social Survey(GSS) conducted a survey to Canadians on the topic of Family in 2017. By utilizing the data collected from the survey, we found that married people are actually more likely to be happier about their lives, which contradicts to how many people's perception about marriage and family. In order to understand how this controversy had formed, this paper aims to explore the different possible factors that affect the happiness of single and married people, such as age, sex, marital status, personal income, average working hours and so on.  In Section \@ref(dataset-of-interest), ...
+The General Social Survey(GSS) conducted a survey to Canadians on the topic of Family in 2017 [@citeGSSdata]. By utilizing the data collected from the survey, we found that married people are actually more likely to be happier about their lives, which contradicts to how many people's perception about marriage and family. In order to understand how this controversy had formed, this paper aims to explore the different possible factors that affect the happiness of single and married people, such as age, sex, marital status, personal income, average working hours and so on.  In Section \@ref(dataset-of-interest), ...
 
 
 # Data
@@ -36,12 +36,9 @@ gss<-gss%>%select(age,feelings_life,sex,marital_status, average_hours_worked,inc
 ```
 
 ## Dataset of interest
-The survey we utilized in this paper comes from the General Social Survey(GSS) of Canada in 2017. The GSS program, founded in 1985, designed and conducted surveys targeting Canadians and focusing on different aspects of life each year. The purpose of those surveys was to collect enough data to investigate potential social issues faced by Canadians, seek for approaches to address these issues, and improve their life quality and personal wellness. This paper selected the GSS in 2017, which focused on the topic of evolution of Families. This questionnaire has a total of 20602 samples and 460 variables. Its target respondents are the people who live in Canada who are older than 15.
+The survey we utilized in this paper comes from the General Social Survey(GSS) of Canada in 2017 [@citeGSSdata]. The GSS program, founded in 1985, designed and conducted surveys targeting Canadians and focusing on different aspects of life each year. The purpose of those surveys was to collect enough data to investigate potential social issues faced by Canadians, seek for approaches to address these issues, and improve their life quality and personal wellness. This paper selected the GSS which focused on the topic of evolution of Families. This questionnaire has a total of 20602 samples and 460 variables. Its target respondents are the people who live in Canada who are older than 15 [@citeGSSdata].
 
-This paper focused on investigating 6 of these variables: age, family income, sex, average working hours, and feelings about life.
-Variable “age” indicates the age of the survey respondents. Variable “feelings_life” indicates how the respondents generally feel about their life from a scale of 0 to 10. Variable “income_respondent” provides the personal income of the respondents from all possible sources. Variable "income_family" represents the total income of the family from all possible sources. Variable “sex” indicates indicates the sexuality of the respondents. Variable "average_hours_worked" means the weekly working hours of the respondents. Variable “marital_status” gives information on whether the respondents are single, living common-law, married, separated, divorced, or widowed; in this paper, we are only interested in the respondents who are either single or married.
-
-R [@citeR], and R packages "tidyverse" [@citetidyverse], "janitor" [@citejanitor], "knitr" [@citeknitr], "dplyr" [@citedplyr], and "kableExtra" [@citekableExtra] are utilized to create an extract of the cleaned dataset (Table \@ref(tab:dataextract)).
+This paper focused on investigating 6 of these variables: age, family income, sex, average working hours, and feelings about life. R [@citeR], and R packages "tidyverse" [@citetidyverse], "janitor" [@citejanitor], "knitr" [@citeknitr], "dplyr" [@citedplyr], and "kableExtra" [@citekableExtra] are utilized to create an extract of the cleaned dataset (Table \@ref(tab:dataextract)).
 
 ```{r dataextract, echo=FALSE, message=FALSE}
 # Set up libraries
@@ -54,27 +51,27 @@ gss_cleaned <- gss %>%
   slice(1:10) %>%
   kable(
     caption = "Extracting the first ten rows from the cleaned GSS Family survey dataset",
-col.names=c("Age", "Feelings about life", "Sex", "Marital status", "Average hours worked per week", "Family income", "Personal income"),
+col.names=c("Age", "Feelings about life", "Sex", "Marital status", "Average hours worked", "Family income", "Personal income"),
 linesep = "", digits = 1, booktabs=TRUE) %>%
   kable_styling(latex_options = "HOLD_position", font_size = 9)
 gss_cleaned
 ```
 
-
+Table \@ref(tab:dataextract) shows the first ten rows of the GSS Family dataset of interest .Variable “Age” indicates the age of the survey respondents. Variable “Feelings about life” indicates how the respondents generally feel about their life from a scale of 0 to 10. Variable “Sex” indicates indicates the sexuality of the respondents. Variable “Marital Status” gives information on whether the respondents are single, living common-law, married, separated, divorced, or widowed; in this paper, we are only interested in the respondents who are either single or married. Variable "Average hours worked" shows the weekly working hours of the respondents. Variable "Family income" represents the total income of the family from all possible sources. Variable “Personal income” provides the personal income of the respondents from all possible sources.
 
 ## Methodology
 
 The survey questions were tested by Statistics Canada's Questionnaire Design Resource Center beforehand. Screened participants from two cities were selected to complete the questionnaire. Base on the feedback of these participants, questions were improved to enhance the effectiveness of the survey. The sampling frame of this survey was created by the Census and Statistics Canada's dwelling frame, The respondents were accessed by landline and cellular telephone numbers, and only one member from each of the selected households was asked to fill the questionnaire. Stratified sampling was used to select the respondents. The Canadian population was divided into 27 strata based on the provinces and census metropolitan areas. 
-Minimum number of random samples were picked from each of the strata to reduce the bias. Invitation letters were sent to the sampled households prior to the official survey to increase the response rate.
+Minimum number of random samples were picked from each of the strata to reduce the bias. Invitation letters were sent to the sampled households prior to the official survey to increase the response rate [@citeGSSdata].
 
 ## Strengths
 
-The response rate of GSS in 2017 is approximately 52.4%, which is a pretty high number. To make sure that the samples were representative of the target population, the survey data were applied by a weighing factor so that the outcome of the survey was more accurate. Confidentiality rules prevented the respondents’ personal information to be disclosed without permission.
+The response rate of GSS in 2017 is approximately 52.4%, which is a pretty high number. To make sure that the samples were representative of the target population, the survey data were applied by a weighing factor so that the outcome of the survey was more accurate. Confidentiality rules prevented the respondents’ personal information to be disclosed without permission [@citeGSSdata].
 
 ## Weaknesses
 
 Some questions which appeared to be quite sensitive to many respondents resulted in high non-response rates. For instance, respondents were generally unwilling to provide information about their incomes. As a result, the information about income was acquired by the tax returns filed by the respondents from the previous year, and the variable “income” was set to a categorical variable. However, this made the survey data collected much vaguer and less likely to reflect the true statistics of income.
-Some bias were associated with the GSS data. For instance, not all target population was covered by the sampling method. The group of households without telephones were not included in the sampled population, which potentially increased the bias of the survey data. Non-response bias was resulted from the group of sampled populations who did not respond to the survey.
+Some bias were associated with the GSS data. For instance, not all target population was covered by the sampling method. The group of households without telephones were not included in the sampled population, which potentially increased the bias of the survey data. Non-response bias was resulted from the group of sampled populations who did not respond to the survey [@citeGSSdata].
 
 
 
@@ -98,7 +95,15 @@ ggplot(aes(x = feelings_life, fill = age_group), data = age_rate)+geom_bar()+fac
 Figure 1 demonstrates how different age groups of Canadians rate their lives and draws a comparison about this statistics between those who are married and those who’re single and never married. Considering the fact that the number of singled respondents decreased by age, it is unreasonable to simply compare between the two plots. By looking at the samples who are single, we can observe that a higher proportion of younger age groups rated their feelings about life high(between 7 and 10), while on the contrary, a higher proportion of older people rated their feelings about life low(between 3 and 6). 
 For the samples of married people, it’s quite obvious that a much higher proportion of older people rated their feelings about life high(between 8 and 10).
 
+\newpage
+```{r echo=FALSE, warning=FALSE, fig.cap="Comparing the feelings about life between male and female for single and married people", fig.width=7, fig.height=3.2}
+sex_rate <- gss %>%
+  select(sex, feelings_life, marital_status) %>%
+  drop_na()
+ggplot(aes(x = feelings_life, fill = sex), data = sex_rate) +geom_bar(position = "dodge")+facet_wrap(~marital_status)+theme_minimal()+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "Sex")
+```
 
+Figure 2 compares the feelings about life between female and male when they are married or single and never married. For the group of singles, sexuality does not have a distinct influence on how they rate their feelings about life. Slightly more males than females rated their feelings for life between 7 and 8, but the number break even again between 9 and 10.  However, when it comes to married people, it seemed like some females tend to give extreme high scores(score of 10) on their feelings about life. This implies that for most of the times, sexuality is not a big contributor to one’s satisfaction about his/her life when they are either single or married, yet it greatly increases some married females' happiness.
 
 
 ```{r, echo=FALSE}
