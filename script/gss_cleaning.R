@@ -38,9 +38,9 @@ library(tidyverse)
 
 # Load the data dictionary and the raw data and correct the variable names
 raw_data <- read_csv("Factors-that-affect-happiness/input/gss.csv")
-dict <- read_lines("Factors-that-affect-happiness/input/data/gss_dict.txt", skip = 18) # skip is because of preamble content
+dict <- read_lines("Factors-that-affect-happiness/input/gss_dict.txt", skip = 18) # skip is because of preamble content
 # Now we need the labels because these are the actual responses that we need
-labels_raw <- read_file("Factors-that-affect-happiness/input/data/gss_labels.txt")
+labels_raw <- read_file("Factors-that-affect-happiness/input/gss_labels.txt")
 
 
 #### Set-up the dictionary ####
