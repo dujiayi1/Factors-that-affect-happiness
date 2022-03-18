@@ -1,0 +1,45 @@
+---
+title: "Canadian Family"
+subtitle: "My subtitle if needed"
+author: 
+  - Alicia Yang
+  - [Another author]
+  - []
+thanks: "Code and data are available at: https://github.com/dujiayi1/Factors-that-affect-happiness."
+date: "`r format(Sys.time(), '%d %B %Y')`"
+abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+output:
+  bookdown::pdf_document2
+toc: FALSE
+bibliography: references.bib
+---
+
+```{r}
+gss<- read_csv(here::here(".Factors-that-affect-happiness/input/gss_family.csv"))
+gss<-gss%>%select(age,feelings_life,sex,marital_status,education,hh_size,average_hours_worked,income_family,income_respondent)
+```
+
+
+```{r}
+gss<-gss%>%na.omit(gss)
+gss<-gss%>%filter(marital_status=="Married"|marital_status=="Single, never married")%>%filter(average_hours_worked!="Don't know")
+
+```
+
+```{r}
+library(ggplot2)
+ggplot(gss,aes(x=feelings_life,fill=income_family))+geom_histogram(position = position_dodge(0.75),binwidth = 1)+facet_grid(.~marital_status)
+ggplot(gss,aes(x=feelings_life,fill=average_hours_worked))+geom_histogram(position = position_dodge(0.75),binwidth = 1)+facet_grid(.~marital_status)
+
+```
+
+
+```{r}
+ggplot(aes(x = age, fill = marital_status), data = gss) +geom_histogram(binwidth = 0.2)+facet_wrap(~feelings_life)
+ggplot(aes(x = feelings_life, fill = sex), data = gss) +geom_bar(position = "dodge")+facet_wrap(~marital_status)
+```
+
+```{r}
+
+```
+
