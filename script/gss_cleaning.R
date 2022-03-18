@@ -12,6 +12,7 @@
 # Authors: Alicia Yang ,[] , []
 # Contact: aliciam.yang@utoronto.ca, [], []
 # Date: 20 March 2020
+# License: MIT
 # Pre-reqs: You need to have downloaded the data from the library. To do that: 
   ## 1. Go to: http://www.chass.utoronto.ca/
   ## 2. Data centre --> UofT users or http://dc.chass.utoronto.ca/myaccess.html
