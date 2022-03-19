@@ -7,7 +7,7 @@ author:
   - [Kaiyuan Yan]
 thanks: "Code and data are available at: https://github.com/dujiayi1/Factors-that-affect-happiness."
 date: "`r format(Sys.time(), '%d %B %Y')`"
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence....Then we demonstrate possible concerns of Canadian families… In addition, we will give suggestions to improve their life quality."
+abstract: "In recent years Canadian society has shown diverse attitude towards the idea of forming a family. To investigate on the reason behind this controversy, this paper conducted the research on the factors which may have an impact on single and married people’s feelings about life based on the General Social Survey(GSS). After screening and comparison, we found that the factors that may affect people’s feelings about life in the survey include age, respondent income, sex, average working hours, and education level. By observing the result, we found that single people of younger age with less income and less working hours feel happier about life, while married peole of older age with less income and less working hours and higher education level feel more satisfied with their life. Moreover, we analyzed the reason for these factors causing effect and discussed the possible bias in the research and the solutions to it."
 output:
   bookdown::pdf_document2
 toc: FALSE
@@ -21,24 +21,33 @@ library(tidyverse)
 ```
 
 # Introduction
-Different aspects of the Canadian society has entered a relatively stable stage in the past few decades, such as its economy and politics. However, it doesn’t mean that the Canadians haven’t been experiencing changes that drastically affect their lifestyles. Factors including social policies and technology advancements have greatly shift the Canadians’ ideology, values, and one of the most common change is their attitude towards marriage. Surveys have shown that more than half of the Canadians see no reasons in getting legally married [@citeintro]. They tend to form common low relationships or simply stay single, because from their perspectives, it seemed like marriages are more likely to end up in a mess than happiness.
+Different aspects of the Canadian society has entered a relatively stable stage in the past few decades, such as its economy and politics. However, it doesn’t mean that the Canadians haven’t been experiencing changes that drastically affect their lifestyles. Factors including social policies and technology advancements have greatly shift the Canadians’ ideology, values, and one of the most common change is their attitude towards marriage and forming family. Surveys have shown that more than half of the Canadians see no reasons in getting legally married [@citeintro]. They tend to form common low relationships or simply stay single, because from their perspectives, it seemed like marriages are more likely to end up in a mess than happiness.
 
-The General Social Survey(GSS) conducted a survey on the topic of Canadian Families in 2017 [@citeGSSdata]. By utilizing the data collected from the survey, we found that married couples are actually more likely to be happier about their lives than the singles, which contradicts to many people's perception about marriage and family. In order to understand how this controversy is formed, this paper aims to explore the different possible factors that affect the happiness of single and married people, such as age, sex, marital status, family income, average working hours and so on. The survey data is thoroughly discussed in the section of \@ref(data). In the sub-section \@ref(dataset-of-interest), we presented an overview of the original survey data, and explained our cleaned dataset that we'll for exploration. The methods used to collect the GSS data as well as the strengths and weaknesses associated with these methods are outlined in the sub-sections \@ref(methodology), \@ref(strengths), and \@ref(weaknesses). Section \@ref(results) presents a series of findings in relation to how the factors that we picked have impacts on 
+The General Social Survey(GSS) conducted a survey on the topic of Canadian Families in 2017 [@citeGSSdata]. By utilizing the data collected from the survey, we found that married couples are actually more likely to be happier about their lives than the singles, which contradicts to many people's perception about marriage and family. In order to understand how this controversy is formed, this paper aims to explore the different possible factors that affect the happiness of single and married people, such as age, sex, marital status, family income, average working hours and so on. The survey data is thoroughly discussed in the section of \@ref(data). In the sub-section \@ref(dataset-of-interest), we presented an overview of the original survey data, and explained our cleaned dataset that we'll for exploration. The methods used to collect the GSS data as well as the strengths and weaknesses associated with these methods are outlined in the sub-sections \@ref(methodology), \@ref(strengths), and \@ref(weaknesses). Section \@ref(results) presents a series of findings in relation to how the different aspects we picked have impacts on single and married people’s feelings about life. These aspects include age, sexuality, average hours worked, respondent income, and education level. In section \@ref(discussion), a discussion is made to elaborate on the implications of the findings we've got from the survey data. Furthermore, we talked about the possible reasons that lead to the the effect of these factors on single and married people's feelings about life.
+
+A supplementary survey is provided in the Appendix in section \@ref(appendix) that incorporate the main focus of this paper and the general social survey. It is designed to obtain more information to enhance the quality of the survey data and to pursue further investigation on this topic.
 
 
 # Data
 
 ```{r include=FALSE}
 # Load GSS family data
-gss<- read_csv("gss_family.csv")
-gss <- gss %>% select(age,feelings_life,sex,marital_status, average_hours_worked,income_family,income_respondent, education) %>%
+gss<- read_csv(here::here("input/gss_family.csv"))
+gss <- gss %>% select(feelings_life,marital_status, age, sex, income_respondent, average_hours_worked, education) %>%
+  mutate(age = case_when(
+    age < 30  ~ "15-30",
+    (age>=30 & age < 45) ~ "30-45",
+    (age>=45 & age < 60) ~ "45-60",
+    (age>=60 & age < 80) ~ "60-80",
+    (age>=80) ~ "greater than 80",
+  )) %>%
   filter(marital_status == "Married" | marital_status == "Single, never married")
 ```
 
 ## Dataset of interest
 The survey we utilized in this paper comes from the General Social Survey(GSS) of Canada in 2017 [@citeGSSdata]. The GSS program, founded in 1985, designed and conducted surveys targeting Canadians and focusing on different aspects of life each year. The purpose of those surveys was to collect enough data to investigate potential social issues faced by Canadians, seek for approaches to address these issues, and improve their life quality and personal wellness. This paper selected the GSS which focused on the topic of evolution of Families. This questionnaire has a total of 20602 samples and 460 variables. Its target respondents are the people who live in Canada who are older than 15 [@citeGSSdata].
 
-This paper focused on investigating 6 of these variables: age, family income, sex, average working hours, and feelings about life. R [@citeR], and R packages "tidyverse" [@citetidyverse], "janitor" [@citejanitor], "knitr" [@citeknitr], "dplyr" [@citedplyr], and "kableExtra" [@citekableExtra] are utilized to create an extract of the cleaned dataset (Table \@ref(tab:dataextract)).
+This paper focused on investigating 6 of these variables: age, sex, respondent's income, average working hours, and feelings about life. R [@citeR], and R packages "tidyverse" [@citetidyverse], "janitor" [@citejanitor], "knitr" [@citeknitr], "dplyr" [@citedplyr], and "kableExtra" [@citekableExtra] are utilized to create an extract of the cleaned dataset (Table \@ref(tab:dataextract)).
 
 ```{r dataextract, echo=FALSE, message=FALSE}
 # Set up libraries
@@ -51,13 +60,13 @@ gss_cleaned <- gss %>%
   slice(1:10) %>%
   kable(
     caption = "Extracting the first ten rows from the cleaned GSS Family survey dataset",
-col.names=c("Age", "Feelings about life", "Sex", "Marital status", "Average hours worked", "Family income", "Personal income", "Education"),
+col.names=c("Feelings about life", "Marital status", "Age", "Sex", "Average hours worked", "Respondent income", "Education"),
 linesep = "", digits = 1, booktabs=TRUE) %>%
-  kable_styling(latex_options = "HOLD_position", font_size = 9)
+  kable_styling(latex_options = "HOLD_position", font_size = 6)
 gss_cleaned
 ```
 
-Table \@ref(tab:dataextract) shows the first ten rows of the GSS Family dataset of interest .Variable “Age” indicates the age of the survey respondents. Variable “Feelings about life” indicates how the respondents generally feel about their life from a scale of 0 to 10. Variable “Sex” indicates indicates the sexuality of the respondents. Variable “Marital Status” gives information on whether the respondents are single, living common-law, married, separated, divorced, or widowed; in this paper, we are only interested in the respondents who are either single or married. Variable "Average hours worked" shows the weekly working hours of the respondents. Variable "Family income" represents the total income of the family from all possible sources. Variable “Personal income” provides the personal income of the respondents from all possible sources.
+Table \@ref(tab:dataextract) shows the first ten rows of the GSS Family dataset of interest .Variable “Age” indicates the age group of the survey respondents. Variable “Feelings about life” indicates how the respondents generally feel about their life from a scale of 0 to 10. Variable “Sex” indicates indicates the sexuality of the respondents. Variable “Marital Status” gives information on whether the respondents are single, living common-law, married, separated, divorced, or widowed; in this paper, we are only interested in the respondents who are either single or married. Variable "Average hours worked" shows the weekly working hours of the respondents. Variable “Personal income” indicates the personal income of the respondents from all possible sources.
 
 ## Methodology
 
@@ -106,8 +115,7 @@ ggplot(aes(x = feelings_life, fill = sex), data = sex_rate) +geom_bar(position =
 
 Figure 2 compares the feelings about life between female and male when they are married or single and never married. For the group of singles, sexuality does not have a distinct influence on how they rate their feelings about life. Slightly more males than females rated their feelings for life between 7 and 8, but the number break even again between 9 and 10.  However, when it comes to married couples, it seemed like some females tend to give extreme high scores(score of 10) on their feelings about life. This implies that for most of the times, sexuality is not a big contributor to one’s satisfaction about his/her life when they are either single or married, yet it greatly increases some married females' happiness.
 
-## Respodent income
-
+## Respondent income
 
 ```{r include=FALSE}
 gss<-gss%>%na.omit(gss)
@@ -121,7 +129,7 @@ ggplot(gss,aes(x=feelings_life,fill=income_respondent))+geom_histogram(position 
 
 Figure 3 indicates the effect on respondents' feelings about life by comparing the different income levels and it's divided by the marital status respectively. It is not hard to find that no matter they are married or single, their income level is high or low, their feelings about life are still eight points or above. In addition, interestingly, it seems that people with lower income levels are happier with their lives, especially among single and never married people. This implies that personal income actually may have a considerable impact on the people's feeling about life.
 
-## Average working hours
+## Average weekly working hours
 
 ```{r, echo = FALSE,warning=FALSE, fig.cap="Comparing the feelings about life between different levels of working hours of respondents for single and married people", fig.width=8, fig.height=3.2}
 ggplot(gss,aes(x=feelings_life,fill=average_hours_worked))+geom_histogram(position = position_dodge(0.75),binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "working hours")
@@ -140,6 +148,10 @@ Figure 5 shows that, as for married people, education level has some effect on f
 
 
 # Discussion
+
+## Ageing and Family life
+
+In section \@ref(age), we’ve discussed that older people with families tend to feel better about their lives compared to younger age groups, and at the same time, younger people that have not yet form families also tend to feel better about their lives when comparing to single elderly people. One possible explanation for this particular result is difference between young and old people in terms of their ideology, health conditions, and social status. Family would be a strong support for the elders who have high risks to experience illnesses, social isolations, and financial crisis. The younger generations, on the other hand, who are more capable of overcoming the crisis faced by the elders, often value the importance of having personal space and feeling controlled of their own lives more. Family has both advantages and drawbacks from looking at these two perspectives, so it’s not surprised that Canadians have such diverse attitudes towards family.
 
 ## Personal income
 
@@ -164,7 +176,7 @@ In fact, most of the time, education has a certain relationship with the factor 
 
 However, from the discussion above, we find that more personal income and working hours don't mean greater happiness. Thus, we consider the other reasons for education level leading to higher level of happiness. The biggest reason We can accept is that for the highly educated married people, they may have wider horizons and richer thoughts. Especially when faced with setbacks in life and feeling depressed, they can quickly deal with them and have a more positive attitude towards life. Moreover, in the family they are able to understand each other and accommodate with each other. As a result, family life is often more harmonious.
 
-## Weakness and limitations
+## Weaknesses and limitations
 
 Our results are more directly reflected by images, and then we make subjective summaries and think about the reasons behind them. We do not specifically point out the influence of factors that affect feelings about life. With more study, we can use more statistical knowledge to conduct modeling and analysis to obtain the specific influence of different factors, so as to exclude the deviation caused by some subjective factors. 
 
@@ -172,6 +184,7 @@ Moreover, due to the individual differences among different people, working long
 
 Besides, in fact, everyone's feelings towards life will be affected by many aspects. No matter personal thoughts or mentality, may have much influence on a person's feelings towards life. However, these are not reflected by a simple survey and table, which may produce deviations in our results.
 
+\newpage
 # Appendix
 
 \newpage
