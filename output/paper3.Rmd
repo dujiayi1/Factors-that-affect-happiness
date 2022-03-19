@@ -31,7 +31,7 @@ The General Social Survey(GSS) conducted a survey on the topic of Canadian Famil
 ```{r include=FALSE}
 # Load GSS family data
 gss<- read_csv(here::here("input/gss_family.csv"))
-gss<-gss%>%select(age,feelings_life,sex,marital_status, average_hours_worked,income_family,income_respondent) %>%
+gss <- gss %>% select(age,feelings_life,sex,marital_status, average_hours_worked,income_family,income_respondent, education) %>%
   filter(marital_status == "Married" | marital_status == "Single, never married")
 ```
 
@@ -51,7 +51,7 @@ gss_cleaned <- gss %>%
   slice(1:10) %>%
   kable(
     caption = "Extracting the first ten rows from the cleaned GSS Family survey dataset",
-col.names=c("Age", "Feelings about life", "Sex", "Marital status", "Average hours worked", "Family income", "Personal income"),
+col.names=c("Age", "Feelings about life", "Sex", "Marital status", "Average hours worked", "Family income", "Personal income", "Education"),
 linesep = "", digits = 1, booktabs=TRUE) %>%
   kable_styling(latex_options = "HOLD_position", font_size = 9)
 gss_cleaned
