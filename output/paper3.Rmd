@@ -74,7 +74,7 @@ linesep = "", digits = 1, booktabs=TRUE) %>%
 gss_cleaned
 ```
 
-Table \@ref(tab:dataextract) shows the first ten rows of the GSS Family dataset of interest .Variable “Age” indicates the age group of the survey respondents. Variable “Feelings about life” indicates how the respondents generally feel about their life from a scale of 0 to 10. Variable “Sex” indicates indicates the sexuality of the respondents. Variable “Marital Status” gives information on whether the respondents are single, living common-law, married, separated, divorced, or widowed; in this paper, we are only interested in the respondents who are either single or married. Variable "Average hours worked" shows the weekly working hours of the respondents. Variable “Personal income” indicates the personal income of the respondents from all possible sources.
+Table \@ref(tab:dataextract) shows the first ten rows of the GSS Family dataset of interest .Variable “Age” indicates the age group of the survey respondents; it is used as a categorical variable in this paper for the purpose of comparing respondents by groups. Variable “Feelings about life” indicates how the respondents generally feel about their life from a scale of 0 to 10. Variable “Sex” indicates indicates the sexuality of the respondents. Variable “Marital Status” gives information on whether the respondents are single, living common-law, married, separated, divorced, or widowed; in this paper, we are only interested in the respondents who are either single or married. Variable "Average hours worked" shows the range of weekly working hours of the respondents. Variable “Personal income” indicates the range of personal income of the respondents from all possible sources each year.
 
 ## Methodology
 
@@ -105,11 +105,11 @@ age_rate <- gss %>%
     (age>=60 & age < 80) ~ "60-80",
     (age>=80) ~ "greater than 80",
   ))
-ggplot(aes(x = feelings_life, fill = age_group), data = age_rate)+geom_bar()+facet_wrap(~marital_status)+theme_minimal()+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "Age groups")
+ggplot(aes(x = feelings_life, fill = age_group), data = age_rate)+geom_bar(position = "dodge")+facet_wrap(~marital_status)+theme_minimal()+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "Age groups")
 
 ```
 
-Figure \@ref(fig:figure1) demonstrates how different age groups of Canadians rate their lives and draws a comparison about this statistics between those who are married and those who’re single and never married. Considering the fact that the number of singled respondents decreased by age, it is unreasonable to simply compare between the two plots. By looking at the samples who are single, we can observe that a higher proportion of younger age groups rated their feelings about life high(between 7 and 10), while on the contrary, a higher proportion of older people rated their feelings about life low(between 3 and 6). 
+Figure \@ref(fig:figure1) demonstrates how different age groups of Canadians rate their lives and draws a comparison about this statistics between those who are married and those who’re single and never married. Considering the fact that the number of singled respondents decrease by age, it is unreasonable to simply compare between the two plots. By looking at the samples who are single, we can observe that a higher proportion of younger age groups rated their feelings about life high(between 7 and 10), while on the contrary, a higher proportion of older people rated their feelings about life low(between 3 and 6). 
 For the samples of married people, it’s quite obvious that a much higher proportion of older people rated their feelings about life with high scores between 8 and 10.
 
 \newpage
@@ -121,11 +121,11 @@ sex_rate <- gss %>%
 ggplot(aes(x = feelings_life, fill = sex), data = sex_rate) +geom_bar(position = "dodge", binwidth = 1)+facet_wrap(~marital_status)+theme_minimal()+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "Sex")
 ```
 
-Figure \@ref(fig:figure2) compares the feelings about life between female and male when they are married or single and never married. For the group of singles, sexuality does not have a distinct influence on how they rate their feelings about life. Slightly more males than females rated their feelings for life between 7 and 8, but the number break even again between 9 and 10.  However, when it comes to married couples, it seemed like some females tend to give extreme high scores(score of 10) on their feelings about life. This implies that for most of the times, sexuality is not a big contributor to one’s satisfaction about his/her life when they are either single or married, yet it greatly increases some married females' happiness.
+Figure \@ref(fig:figure2) compares the feelings about life between female and male when they are married or single and never married. For the group of singles, sexuality does not have a distinct influence on how they rate their feelings about life. Slightly more males than females rated their feelings for life between 7 and 8, but the number break even again between 9 and 10.  However, when it comes to married couples, it seems like some females tend to give extreme high scores(score of 10) on their feelings about life. This implies that for most of the times, sexuality is not a big contributor to one’s satisfaction about his/her life when they are either single or married, yet it greatly increases some married females' happiness.
 
 ## Respondent income
 
-Figure \@ref(fig:figure3) indicates the effect on respondents' feelings about life by comparing the different income levels and it's divided by the marital status respectively. It is not hard to find that no matter they are married or single, their income level is high or low, their feelings about life are still eight points or above. In addition, interestingly, it seems that people with lower income levels are happier with their lives, especially among single and never married people. This implies that personal income actually may have a considerable impact on the people's feeling about life.
+Figure \@ref(fig:figure3) indicates the effect on respondents' feelings about life by comparing the different income levels and it's divided by the marital status respectively. It is not hard to observe that the group of singles generally has a lower income level than the group of married people. In addition, by comparing within single respondents, it is interesting to find out that people with lower income levels feel better about their lives than people with higher income levels. This implies that personal income actually may have a considerable impact on the single people's feeling about life. For the married people, it seems like income level has no significant correlation with their feelings about life; a considerable number of respondents who earn less than \$25000 a year rated their feelings at a score of 10, while some respondents that earn over \$100000 a year only rated their feelings at a score of 8. 
 
 \newpage
 ```{r include=FALSE}
@@ -134,26 +134,26 @@ gss<-gss%>%filter(marital_status=="Married"|marital_status=="Single, never marri
 ```
 
 ```{r figure3, echo = FALSE, warning=FALSE, fig.cap="Comparing the feelings about life between different levels of income of respondents for single and married people", fig.width=9, fig.height= 4.5}
-ggplot(gss,aes(x=feelings_life,fill=income_respondent))+geom_bar(position = "dodge",binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "respondent income")+theme_minimal()
+ggplot(gss,aes(x=feelings_life,fill=income_respondent))+geom_bar(position = "dodge")+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "respondent income")+theme_minimal()
 ```
 
 ## Average weekly working hours
 
-Figure \@ref(fig:figure4) demonstrates the relationship between feelings about life and the weekly average working hours of respondents. It's not surprising to find that people with less working hours tend to have more points of feeling about life, which is much more apparent for married groups. It seems that people with 6-8 working hours every day may be happier about life.
+Figure \@ref(fig:figure4) demonstrates the relationship between feelings about life and the weekly average working hours of single and married respondents It's not surprised to find that the single respondents  with heavy working hours of 40 hours or more tend to give higher scores on feeling about life. On the other hand, for married people, It seems that people with approximately 30-40 working hours every week feel happier about their lives.
 
 \newpage
 ```{r figure4, echo = FALSE,warning=FALSE, fig.cap="Comparing the feelings about life between different levels of working hours of respondents for single and married people", fig.width=8, fig.height=4.1}
-ggplot(gss,aes(x=feelings_life,fill=average_hours_worked))+geom_histogram(position = "dodge",binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "working hours")+theme_minimal()
+ggplot(gss,aes(x=feelings_life,fill=average_hours_worked))+geom_bar(position = "dodge",binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "working hours")+theme_minimal()
 
 ```
 
 ## Education
 
-Figure \@ref(fig:figure5) shows that, as for married people, education level has some effect on feelings about life while it has little influence on single people. For married people, it seems that higher education level may lead to more points of feeling about life. Most of the married respondents with bachelor's degree or college certificate have more than 8 points of feeling about life, which indicates that married people with a relatively high education level may feel much happier about life.
+Figure \@ref(fig:figure5) shows that, as for married people, education level has some effect on feelings about life while it has little influence on single people. For married people, it seems that higher education level may lead to higher scores of feelings about life. Most of the married respondents with bachelor's degree or college certificate give higher scores of 8 or more on feeling about life, which indicates that married people with a relatively high education level may feel much happier about life.
 
 \newpage
 ```{r figure5,echo=FALSE,warning=FALSE, fig.cap="Comparing the feelings about life between different levels of education of respondents for single and married people", fig.width=10, fig.height=4.8}
-ggplot(gss,aes(x=feelings_life,fill=education))+geom_histogram(position = "dodge",binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "education level")+theme_minimal()
+ggplot(gss,aes(x=feelings_life,fill=education))+geom_bar(position = "dodge")+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "education level")+theme_minimal()
 
 ```
 
