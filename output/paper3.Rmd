@@ -23,7 +23,7 @@ library(tidyverse)
 # Introduction
 Different aspects of the Canadian society has entered a relatively stable stage in the past few decades, such as its economy and politics. However, it doesn’t mean that the Canadians haven’t been experiencing changes that drastically affect their lifestyles. Factors including social policies and technology advancements have greatly shift the Canadians’ ideology, values, and one of the most common change is their attitude towards marriage and forming family. Surveys have shown that more than half of the Canadians see no reasons in getting legally married [@citeintro]. They tend to form common low relationships or simply stay single, because from their perspectives, it seemed like marriages are more likely to end up in a mess than happiness.
 
-The General Social Survey(GSS) conducted a survey on the topic of Canadian Families in 2017 [@citeGSSdata]. By utilizing the data collected from the survey, we found that married couples are actually more likely to be happier about their lives than the singles, which contradicts to many people's perception about marriage and family. In order to understand how this controversy is formed, this paper aims to explore the different possible factors that affect the happiness of single and married people, such as age, sex, marital status, family income, average working hours and so on. The survey data is thoroughly discussed in the section of \@ref(data). In the sub-section \@ref(dataset-of-interest), we presented an overview of the original survey data, and explained our cleaned dataset that we'll for exploration. The methods used to collect the GSS data as well as the strengths and weaknesses associated with these methods are outlined in the sub-sections \@ref(methodology), \@ref(strengths), and \@ref(weaknesses). Section \@ref(results) presents a series of findings in relation to how the different aspects we picked have impacts on single and married people’s feelings about life. These aspects include age, sexuality, average hours worked, respondent income, and education level. In section \@ref(discussion), a discussion is made to elaborate on the implications of the findings we've got from the survey data. Furthermore, we talked about the possible reasons that lead to the the effect of these factors on single and married people's feelings about life.
+The General Social Survey(GSS) conducted a survey on the topic of Canadian Families in 2017 [@citeGSSdata]. By utilizing the data collected from the survey, we found that married couples are actually more likely to be happier about their lives than the singles, which contradicts to many people's perception about marriage and family. In order to understand how this controversy is formed, this paper aims to explore the different possible factors that affect the happiness of single and married people, such as age, sex, marital status, personal income, average working hours and so on. The survey data is thoroughly discussed in the section of \@ref(data). In the sub-section \@ref(dataset-of-interest), we presented an overview of the original survey data, and explained our cleaned dataset that we'll for exploration. The methods used to collect the GSS data as well as the strengths and weaknesses associated with these methods are outlined in the sub-sections \@ref(methodology), \@ref(strengths), and \@ref(weaknesses). Section \@ref(results) presents a series of findings in relation to how the different aspects we picked have impacts on single and married people’s feelings about life. These aspects include age, sexuality, average hours worked, respondent income, and education level. In section \@ref(discussion), a discussion is made to elaborate on the implications of the findings we've got from the survey data. Furthermore, we talked about the possible reasons that lead to the the effect of these factors on single and married people's feelings about life.
 
 A supplementary survey is provided in the Appendix in section \@ref(appendix) that incorporate the main focus of this paper and the general social survey. It is designed to obtain more information to enhance the quality of the survey data and to pursue further investigation on this topic.
 
@@ -40,6 +40,14 @@ gss <- gss %>% select(feelings_life,marital_status, age, sex, income_respondent,
     (age>=45 & age < 60) ~ "45-60",
     (age>=60 & age < 80) ~ "60-80",
     (age>=80) ~ "greater than 80",
+  )) %>%
+  mutate(education = case_when(
+    education == "Bachelor's degree (e.g. B.A., B.Sc., LL.B.)" ~ "Bachelor's degree",
+    education == "University certificate, diploma or degree above the bach..." ~ "University certificate/diploma",
+    education =="College, CEGEP or other non-university certificate or di..."  ~ "Non-university certificate/diplomas",
+    education == "Trade certificate or diploma" ~ "Trade certificate/diploma",
+    education =="High school diploma or a high school equivalency certificate"  ~ "High school diploma/certificate",
+    education == "Less than high school diploma or its equivalent" ~ "Less than high school diploma"
   )) %>%
   filter(marital_status == "Married" | marital_status == "Single, never married")
 ```
@@ -62,7 +70,7 @@ gss_cleaned <- gss %>%
     caption = "Extracting the first ten rows from the cleaned GSS Family survey dataset",
 col.names=c("Feelings about life", "Marital status", "Age", "Sex", "Average hours worked", "Respondent income", "Education"),
 linesep = "", digits = 1, booktabs=TRUE) %>%
-  kable_styling(latex_options = "HOLD_position", font_size = 6)
+  kable_styling(latex_options = "HOLD_position", font_size = 5.7)
 gss_cleaned
 ```
 
@@ -86,7 +94,7 @@ Some bias were associated with the GSS data. For instance, not all target popula
 
 # Results
 ## Age
-```{r echo=FALSE, warning=FALSE, fig.cap="Comparing the rated feelings about life of different age groups between single and married people", fig.width=7, fig.height=3.2}
+```{r figure1, echo=FALSE, warning=FALSE, fig.cap="Comparing the rated feelings about life of different age groups between single and married people", fig.width=7, fig.height=3.5}
 age_rate <- gss %>%
   select(age, feelings_life, marital_status) %>%
   drop_na() %>%
@@ -101,57 +109,59 @@ ggplot(aes(x = feelings_life, fill = age_group), data = age_rate)+geom_bar()+fac
 
 ```
 
-Figure 1 demonstrates how different age groups of Canadians rate their lives and draws a comparison about this statistics between those who are married and those who’re single and never married. Considering the fact that the number of singled respondents decreased by age, it is unreasonable to simply compare between the two plots. By looking at the samples who are single, we can observe that a higher proportion of younger age groups rated their feelings about life high(between 7 and 10), while on the contrary, a higher proportion of older people rated their feelings about life low(between 3 and 6). 
+Figure \@ref(fig:figure1) demonstrates how different age groups of Canadians rate their lives and draws a comparison about this statistics between those who are married and those who’re single and never married. Considering the fact that the number of singled respondents decreased by age, it is unreasonable to simply compare between the two plots. By looking at the samples who are single, we can observe that a higher proportion of younger age groups rated their feelings about life high(between 7 and 10), while on the contrary, a higher proportion of older people rated their feelings about life low(between 3 and 6). 
 For the samples of married people, it’s quite obvious that a much higher proportion of older people rated their feelings about life with high scores between 8 and 10.
 
 \newpage
 ## Sexuality
-```{r echo=FALSE, warning=FALSE, fig.cap="Comparing the feelings about life between male and female for single and married people", fig.width=7, fig.height=3.2}
+```{r figure2, echo=FALSE, warning=FALSE, fig.cap="Comparing the feelings about life between male and female for single and married people", fig.width=7, fig.height=3.5}
 sex_rate <- gss %>%
   select(sex, feelings_life, marital_status) %>%
   drop_na()
-ggplot(aes(x = feelings_life, fill = sex), data = sex_rate) +geom_bar(position = "dodge")+facet_wrap(~marital_status)+theme_minimal()+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "Sex")
+ggplot(aes(x = feelings_life, fill = sex), data = sex_rate) +geom_bar(position = "dodge", binwidth = 1)+facet_wrap(~marital_status)+theme_minimal()+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "Sex")
 ```
 
-Figure 2 compares the feelings about life between female and male when they are married or single and never married. For the group of singles, sexuality does not have a distinct influence on how they rate their feelings about life. Slightly more males than females rated their feelings for life between 7 and 8, but the number break even again between 9 and 10.  However, when it comes to married couples, it seemed like some females tend to give extreme high scores(score of 10) on their feelings about life. This implies that for most of the times, sexuality is not a big contributor to one’s satisfaction about his/her life when they are either single or married, yet it greatly increases some married females' happiness.
+Figure \@ref(fig:figure2) compares the feelings about life between female and male when they are married or single and never married. For the group of singles, sexuality does not have a distinct influence on how they rate their feelings about life. Slightly more males than females rated their feelings for life between 7 and 8, but the number break even again between 9 and 10.  However, when it comes to married couples, it seemed like some females tend to give extreme high scores(score of 10) on their feelings about life. This implies that for most of the times, sexuality is not a big contributor to one’s satisfaction about his/her life when they are either single or married, yet it greatly increases some married females' happiness.
 
 ## Respondent income
 
+Figure \@ref(fig:figure3) indicates the effect on respondents' feelings about life by comparing the different income levels and it's divided by the marital status respectively. It is not hard to find that no matter they are married or single, their income level is high or low, their feelings about life are still eight points or above. In addition, interestingly, it seems that people with lower income levels are happier with their lives, especially among single and never married people. This implies that personal income actually may have a considerable impact on the people's feeling about life.
+
+\newpage
 ```{r include=FALSE}
 gss<-gss%>%na.omit(gss)
 gss<-gss%>%filter(marital_status=="Married"|marital_status=="Single, never married")%>%filter(average_hours_worked!="Don't know")
 ```
 
-```{r, echo = FALSE, warning=FALSE, fig.cap="Comparing the feelings about life between different levels of income of respondents for single and married people", fig.width=9, fig.height=3.2}
-ggplot(gss,aes(x=feelings_life,fill=income_respondent))+geom_histogram(position = position_dodge(0.75),binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "respondent income")
-
+```{r figure3, echo = FALSE, warning=FALSE, fig.cap="Comparing the feelings about life between different levels of income of respondents for single and married people", fig.width=9, fig.height= 4.5}
+ggplot(gss,aes(x=feelings_life,fill=income_respondent))+geom_bar(position = "dodge",binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "respondent income")+theme_minimal()
 ```
-
-Figure 3 indicates the effect on respondents' feelings about life by comparing the different income levels and it's divided by the marital status respectively. It is not hard to find that no matter they are married or single, their income level is high or low, their feelings about life are still eight points or above. In addition, interestingly, it seems that people with lower income levels are happier with their lives, especially among single and never married people. This implies that personal income actually may have a considerable impact on the people's feeling about life.
 
 ## Average weekly working hours
 
-```{r, echo = FALSE,warning=FALSE, fig.cap="Comparing the feelings about life between different levels of working hours of respondents for single and married people", fig.width=8, fig.height=3.2}
-ggplot(gss,aes(x=feelings_life,fill=average_hours_worked))+geom_histogram(position = position_dodge(0.75),binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "working hours")
+Figure \@ref(fig:figure4) demonstrates the relationship between feelings about life and the weekly average working hours of respondents. It's not surprising to find that people with less working hours tend to have more points of feeling about life, which is much more apparent for married groups. It seems that people with 6-8 working hours every day may be happier about life.
+
+\newpage
+```{r figure4, echo = FALSE,warning=FALSE, fig.cap="Comparing the feelings about life between different levels of working hours of respondents for single and married people", fig.width=8, fig.height=4.1}
+ggplot(gss,aes(x=feelings_life,fill=average_hours_worked))+geom_histogram(position = "dodge",binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "working hours")+theme_minimal()
 
 ```
-
-Figure 4 demonstrates the relationship between feelings about life and the weekly average working hours of respondents. It's not surprising to find that people with less working hours tend to have more points of feeling about life, which is much more apparent for married groups. It seems that people with 6-8 working hours every day may be happier about life.
 
 ## Education
 
-```{r,echo=FALSE,warning=FALSE, fig.cap="Comparing the feelings about life between different levels of education of respondents for single and married people", fig.width=10, fig.height=3.2}
-ggplot(gss,aes(x=feelings_life,fill=education))+geom_histogram(position = position_dodge(0.75),binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "education level")
+Figure \@ref(fig:figure5) shows that, as for married people, education level has some effect on feelings about life while it has little influence on single people. For married people, it seems that higher education level may lead to more points of feeling about life. Most of the married respondents with bachelor's degree or college certificate have more than 8 points of feeling about life, which indicates that married people with a relatively high education level may feel much happier about life.
+
+\newpage
+```{r figure5,echo=FALSE,warning=FALSE, fig.cap="Comparing the feelings about life between different levels of education of respondents for single and married people", fig.width=10, fig.height=4.8}
+ggplot(gss,aes(x=feelings_life,fill=education))+geom_histogram(position = "dodge",binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "education level")+theme_minimal()
 
 ```
-Figure 5 shows that, as for married people, education level has some effect on feelings about life while it has little influence on single people. For married people, it seems that higher education level may lead to more points of feeling about life. Most of the married respondents with bachelor's degree or college certificate have more than 8 points of feeling about life, which indicates that married people with a relatively high education level may feel much happier about life.
-
 
 # Discussion
 
 ## Ageing and Family life
 
-In section \@ref(age), we’ve discussed that older people with families tend to feel better about their lives compared to younger age groups, and at the same time, younger people that have not yet form families also tend to feel better about their lives when comparing to single elderly people. One possible explanation for this particular result is difference between young and old people in terms of their ideology, health conditions, and social status. Family would be a strong support for the elders who have high risks to experience illnesses, social isolations, and financial crisis. The younger generations, on the other hand, who are more capable of overcoming the crisis faced by the elders, often value the importance of having personal space and feeling controlled of their own lives more. Family has both advantages and drawbacks from looking at these two perspectives, so it’s not surprised that Canadians have such diverse attitudes towards family.
+In section \@ref(age), we’ve discussed that older people with families tend to feel better about their lives compared to younger age groups, and at the same time, younger people that have not yet form families also tend to feel better about their lives when comparing to single elderly people. One possible explanation for this particular result is difference between young and old people in terms of their ideology, health conditions, and social status. Family would be a strong support for the elders who have high risks to experience illnesses, social isolation, and financial crisis. The younger generations, on the other hand, who are more capable of overcoming the crisis faced by the elders, often value the importance of having personal space and feeling controlled of their own lives more. Family has both advantages and drawbacks from looking at these two perspectives, so it’s not surprised that Canadians have such diverse attitudes towards family.
 
 ## Personal income
 
