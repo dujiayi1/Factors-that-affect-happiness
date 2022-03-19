@@ -66,7 +66,7 @@ Minimum number of random samples were picked from each of the strata to reduce t
 
 ## Strengths
 
-The response rate of GSS in 2017 is approximately 52.4%, which is a pretty high number. To make sure that the samples were representative of the target population, the survey data were applied by a weighing factor so that the outcome of the survey was more accurate. Confidentiality rules prevented the respondents’ personal information to be disclosed without permission [@citeGSSdata].
+The response rate of GSS in 2017 is approximately 52.4%, which is a pretty high number. To make sure that the samples were representative of the target population, the survey data were applied by a weighing factor so that the outcome of the survey was more accurate. Issues associated with ethics were reduced due to the confidentiality rules of Statistics Canada and prevented the respondents’ personal information to be disclosed without permission [@citeGSSdata].
 
 ## Weaknesses
 
@@ -93,7 +93,7 @@ ggplot(aes(x = feelings_life, fill = age_group), data = age_rate)+geom_bar()+fac
 ```
 
 Figure 1 demonstrates how different age groups of Canadians rate their lives and draws a comparison about this statistics between those who are married and those who’re single and never married. Considering the fact that the number of singled respondents decreased by age, it is unreasonable to simply compare between the two plots. By looking at the samples who are single, we can observe that a higher proportion of younger age groups rated their feelings about life high(between 7 and 10), while on the contrary, a higher proportion of older people rated their feelings about life low(between 3 and 6). 
-For the samples of married people, it’s quite obvious that a much higher proportion of older people rated their feelings about life high(between 8 and 10).
+For the samples of married people, it’s quite obvious that a much higher proportion of older people rated their feelings about life with high scores between 8 and 10.
 
 \newpage
 ## Sexuality
