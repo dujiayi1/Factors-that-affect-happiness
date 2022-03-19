@@ -3,8 +3,8 @@ title: "Canadian Family..."
 subtitle: "My subtitle if needed"
 author: 
   - Alicia Yang
-  - [Another author]
-  - []
+  - [Jiayi Du]
+  - [Kaiyuan Yan]
 thanks: "Code and data are available at: https://github.com/dujiayi1/Factors-that-affect-happiness."
 date: "`r format(Sys.time(), '%d %B %Y')`"
 abstract: "First sentence. Second sentence. Third sentence. Fourth sentence....Then we demonstrate possible concerns of Canadian families… In addition, we will give suggestions to improve their life quality."
@@ -30,7 +30,7 @@ The General Social Survey(GSS) conducted a survey on the topic of Canadian Famil
 
 ```{r include=FALSE}
 # Load GSS family data
-gss<- read_csv(here::here("input/gss_family.csv"))
+gss<- read_csv("gss_family.csv")
 gss <- gss %>% select(age,feelings_life,sex,marital_status, average_hours_worked,income_family,income_respondent, education) %>%
   filter(marital_status == "Married" | marital_status == "Single, never married")
 ```
@@ -106,27 +106,71 @@ ggplot(aes(x = feelings_life, fill = sex), data = sex_rate) +geom_bar(position =
 
 Figure 2 compares the feelings about life between female and male when they are married or single and never married. For the group of singles, sexuality does not have a distinct influence on how they rate their feelings about life. Slightly more males than females rated their feelings for life between 7 and 8, but the number break even again between 9 and 10.  However, when it comes to married couples, it seemed like some females tend to give extreme high scores(score of 10) on their feelings about life. This implies that for most of the times, sexuality is not a big contributor to one’s satisfaction about his/her life when they are either single or married, yet it greatly increases some married females' happiness.
 
+## Respodent income
 
-```{r, echo=FALSE}
+
+```{r include=FALSE}
 gss<-gss%>%na.omit(gss)
 gss<-gss%>%filter(marital_status=="Married"|marital_status=="Single, never married")%>%filter(average_hours_worked!="Don't know")
 ```
 
-```{r, echo = FALSE}
-library(ggplot2)
-ggplot(gss,aes(x=feelings_life,fill=income_family))+geom_histogram(position = position_dodge(0.75),binwidth = 1)+facet_grid(.~marital_status)
+```{r, echo = FALSE, warning=FALSE, fig.cap="Comparing the feelings about life between different levels of income of respondents for single and married people", fig.width=9, fig.height=3.2}
+ggplot(gss,aes(x=feelings_life,fill=income_respondent))+geom_histogram(position = position_dodge(0.75),binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "respondent income")
 
 ```
 
-```{r, echo = FALSE}
-ggplot(gss,aes(x=feelings_life,fill=average_hours_worked))+geom_histogram(position = position_dodge(0.75),binwidth = 1)+facet_grid(.~marital_status)
+Figure 3 indicates the effect on respondents' feelings about life by comparing the different income levels and it's divided by the marital status respectively. It is not hard to find that no matter they are married or single, their income level is high or low, their feelings about life are still eight points or above. In addition, interestingly, it seems that people with lower income levels are happier with their lives, especially among single and never married people. This implies that personal income actually may have a considerable impact on the people's feeling about life.
+
+## Average working hours
+
+```{r, echo = FALSE,warning=FALSE, fig.cap="Comparing the feelings about life between different levels of working hours of respondents for single and married people", fig.width=8, fig.height=3.2}
+ggplot(gss,aes(x=feelings_life,fill=average_hours_worked))+geom_histogram(position = position_dodge(0.75),binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "working hours")
 
 ```
 
+Figure 4 demonstrates the relationship between feelings about life and the weekly average working hours of respondents. It's not surprising to find that people with less working hours tend to have more points of feeling about life, which is much more apparent for married groups. It seems that people with 6-8 working hours every day may be happier about life.
 
+## Education
+
+```{r,echo=FALSE,warning=FALSE, fig.cap="Comparing the feelings about life between different levels of education of respondents for single and married people", fig.width=10, fig.height=3.2}
+ggplot(gss,aes(x=feelings_life,fill=education))+geom_histogram(position = position_dodge(0.75),binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "education level")
+
+```
+Figure 5 shows that, as for married people, education level has some effect on feelings about life while it has little influence on single people. For married people, it seems that higher education level may lead to more points of feeling about life. Most of the married respondents with bachelor's degree or college certificate have more than 8 points of feeling about life, which indicates that married people with a relatively high education level may feel much happier about life.
 
 
 # Discussion
+
+## Personal income
+
+From our perspective, it might be tempting to assume that people with higher incomes are likely to be happier because they have more purchasing power and higher consumption levels, making it easier for them to buy things than ordinary people who have to take a long time to save up for.
+However, in this paper, it’s quite surprising to find that people who are married with high income tend to be less happy than people who earn less. After consideration and discussion, the possible reasons are as follows: 
+
+On one hand, people who have been married have more pressure about their family, not only the family daily expenses, but also a large proportion of possible expenses from raising children. For them, a large part of the high salary earned by hard work every day is for family expenses, and there may even be a feeling of being on the run all the time, which makes them feel less happy with life.
+
+On the other hand, people who are single right now spend most of their salary on themselves, no matter they go out to eat, drink or buy things for themselves. There is less pressure, so they are more likely to feel satisfied and happy about life.
+
+## Working hours
+
+It's not hard to understand that long working hours may have negative effect on the people's feeling about life, since working for a long time with high intensity will definitely have a great impact on people both physically and psychologically. 
+
+However, it seems more obvious that long working hours have more impact on married people than single people. In our opinion, since married people may have more pressure from their family, it's quite normal for them to feel more relaxed if they have less working hours. They may be able to take a break and enjoy their life better.
+
+Although working hours are often positively correlated with income, as we have previously analyzed, higher income does not necessarily mean increased happiness with life, so working longer hours does not necessarily mean greater satisfaction and happiness with life.
+
+## Education
+
+In fact, most of the time, education has a certain relationship with the factor we discussed before, the working hours and personal income . It seems that nowadays, people with higher degrees tend to be able to find higher-paying jobs, but higher-paying jobs often mean longer working hours. 
+
+However, from the discussion above, we find that more personal income and working hours don't mean greater happiness. Thus, we consider the other reasons for education level leading to higher level of happiness. The biggest reason We can accept is that for the highly educated married people, they may have wider horizons and richer thoughts. Especially when faced with setbacks in life and feeling depressed, they can quickly deal with them and have a more positive attitude towards life. Moreover, in the family they are able to understand each other and accommodate with each other. As a result, family life is often more harmonious.
+
+## Weakness and limitations
+
+Our results are more directly reflected by images, and then we make subjective summaries and think about the reasons behind them. We do not specifically point out the influence of factors that affect feelings about life. With more study, we can use more statistical knowledge to conduct modeling and analysis to obtain the specific influence of different factors, so as to exclude the deviation caused by some subjective factors. 
+
+Moreover, due to the individual differences among different people, working long hours does not necessarily mean high income, and high income does not necessarily mean working long hours. In addition, highly educated people do not necessarily have a high-paying job. All these may cause bias to our results.
+
+Besides, in fact, everyone's feelings towards life will be affected by many aspects. No matter personal thoughts or mentality, may have much influence on a person's feelings towards life. However, these are not reflected by a simple survey and table, which may produce deviations in our results.
 
 # Appendix
 
