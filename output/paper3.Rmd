@@ -23,7 +23,7 @@ library(tidyverse)
 # Introduction
 Different aspects of the Canadian society has entered a relatively stable stage in the past few decades, such as its economy and politics. However, it doesn’t mean that the Canadians haven’t been experiencing changes that drastically affect their lifestyles. Factors including social policies and technology advancements have greatly shift the Canadians’ ideology, values, and one of the most common change is their attitude towards marriage. Surveys have shown that more than half of the Canadians see no reasons in getting legally married [@citeintro]. They tend to form common low relationships or simply stay single, because from their perspectives, it seemed like marriages are more likely to end up in a mess than happiness.
 
-The General Social Survey(GSS) conducted a survey to Canadians on the topic of Family in 2017 [@citeGSSdata]. By utilizing the data collected from the survey, we found that married people are actually more likely to be happier about their lives, which contradicts to how many people's perception about marriage and family. In order to understand how this controversy had formed, this paper aims to explore the different possible factors that affect the happiness of single and married people, such as age, sex, marital status, personal income, average working hours and so on.  In Section \@ref(dataset-of-interest), ...
+The General Social Survey(GSS) conducted a survey on the topic of Canadian Families in 2017 [@citeGSSdata]. By utilizing the data collected from the survey, we found that married couples are actually more likely to be happier about their lives than the singles, which contradicts to many people's perception about marriage and family. In order to understand how this controversy is formed, this paper aims to explore the different possible factors that affect the happiness of single and married people, such as age, sex, marital status, family income, average working hours and so on. The survey data is thoroughly discussed in the section of \@ref(data). In the sub-section \@ref(dataset-of-interest), we presented an overview of the original survey data, and explained our cleaned dataset that we'll for exploration. The methods used to collect the GSS data as well as the strengths and weaknesses associated with these methods are outlined in the sub-sections \@ref(methodology), \@ref(strengths), and \@ref(weaknesses). Section \@ref(results) presents a series of findings in relation to how the factors that we picked have impacts on 
 
 
 # Data
@@ -96,6 +96,7 @@ Figure 1 demonstrates how different age groups of Canadians rate their lives and
 For the samples of married people, it’s quite obvious that a much higher proportion of older people rated their feelings about life high(between 8 and 10).
 
 \newpage
+## Sexuality
 ```{r echo=FALSE, warning=FALSE, fig.cap="Comparing the feelings about life between male and female for single and married people", fig.width=7, fig.height=3.2}
 sex_rate <- gss %>%
   select(sex, feelings_life, marital_status) %>%
@@ -103,7 +104,7 @@ sex_rate <- gss %>%
 ggplot(aes(x = feelings_life, fill = sex), data = sex_rate) +geom_bar(position = "dodge")+facet_wrap(~marital_status)+theme_minimal()+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "Sex")
 ```
 
-Figure 2 compares the feelings about life between female and male when they are married or single and never married. For the group of singles, sexuality does not have a distinct influence on how they rate their feelings about life. Slightly more males than females rated their feelings for life between 7 and 8, but the number break even again between 9 and 10.  However, when it comes to married people, it seemed like some females tend to give extreme high scores(score of 10) on their feelings about life. This implies that for most of the times, sexuality is not a big contributor to one’s satisfaction about his/her life when they are either single or married, yet it greatly increases some married females' happiness.
+Figure 2 compares the feelings about life between female and male when they are married or single and never married. For the group of singles, sexuality does not have a distinct influence on how they rate their feelings about life. Slightly more males than females rated their feelings for life between 7 and 8, but the number break even again between 9 and 10.  However, when it comes to married couples, it seemed like some females tend to give extreme high scores(score of 10) on their feelings about life. This implies that for most of the times, sexuality is not a big contributor to one’s satisfaction about his/her life when they are either single or married, yet it greatly increases some married females' happiness.
 
 
 ```{r, echo=FALSE}
