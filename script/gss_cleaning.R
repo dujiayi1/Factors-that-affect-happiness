@@ -9,7 +9,7 @@
 # possible values. In that we embed some R code that will do a replacement. We 
 # then apply that dataset to the raw dataset. Finally we do all the usual cleaning.
 # to the dataset. You will end up with a dataset called gss.csv.
-# Authors: Alicia Yang ,[] , []
+# Authors: Alicia Yang ,Jiayi Du , Kaiyuan Yan
 # Contact: aliciam.yang@utoronto.ca, [], []
 # Date: 20 March 2020
 # License: MIT

@@ -1,10 +1,10 @@
 ---
-title: "Canadian Family..."
+title: "Investigating the reason behind Candianss attitudes towards the idea of family"
 subtitle: "My subtitle if needed"
 author: 
   - Alicia Yang
-  - [Jiayi Du]
-  - [Kaiyuan Yan]
+  - Jiayi Du
+  - Kaiyuan Yan
 thanks: "Code and data are available at: https://github.com/dujiayi1/Factors-that-affect-happiness."
 date: "`r format(Sys.time(), '%d %B %Y')`"
 abstract: "In recent years Canadian society has shown diverse attitude towards the idea of forming a family. To investigate on the reason behind this controversy, this paper conducted the research on the factors which may have an impact on single and married people’s feelings about life based on the General Social Survey(GSS). After screening and comparison, we found that the factors that may affect people’s feelings about life in the survey include age, respondent income, sex, average working hours, and education level. By observing the result, we found that single people of younger age with less income and less working hours feel happier about life, while married peole of older age with less income and less working hours and higher education level feel more satisfied with their life. Moreover, we analyzed the reason for these factors causing effect and discussed the possible bias in the research and the solutions to it."
@@ -93,7 +93,7 @@ Some bias were associated with the GSS data. For instance, not all target popula
 
 
 # Results
-## Age
+## Age vs Feelings about life
 ```{r figure1, echo=FALSE, warning=FALSE, fig.cap="Comparing the rated feelings about life of different age groups between single and married people", fig.width=7, fig.height=3.5}
 age_rate <- gss %>%
   select(age, feelings_life, marital_status) %>%
@@ -112,8 +112,8 @@ ggplot(aes(x = feelings_life, fill = age_group), data = age_rate)+geom_bar(posit
 Figure \@ref(fig:figure1) demonstrates how different age groups of Canadians rate their lives and draws a comparison about this statistics between those who are married and those who’re single and never married. Considering the fact that the number of singled respondents decrease by age, it is unreasonable to simply compare between the two plots. By looking at the samples who are single, we can observe that a higher proportion of younger age groups rated their feelings about life high(between 7 and 10), while on the contrary, a higher proportion of older people rated their feelings about life low(between 3 and 6). 
 For the samples of married people, it’s quite obvious that a much higher proportion of older people rated their feelings about life with high scores between 8 and 10.
 
-\newpage
-## Sexuality
+
+## Gender vs Feelings about life
 ```{r figure2, echo=FALSE, warning=FALSE, fig.cap="Comparing the feelings about life between male and female for single and married people", fig.width=7, fig.height=3.5}
 sex_rate <- gss %>%
   select(sex, feelings_life, marital_status) %>%
@@ -121,9 +121,9 @@ sex_rate <- gss %>%
 ggplot(aes(x = feelings_life, fill = sex), data = sex_rate) +geom_bar(position = "dodge", binwidth = 1)+facet_wrap(~marital_status)+theme_minimal()+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "Sex")
 ```
 
-Figure \@ref(fig:figure2) compares the feelings about life between female and male when they are married or single and never married. For the group of singles, sexuality does not have a distinct influence on how they rate their feelings about life. Slightly more males than females rated their feelings for life between 7 and 8, but the number break even again between 9 and 10.  However, when it comes to married couples, it seems like some females tend to give extreme high scores(score of 10) on their feelings about life. This implies that for most of the times, sexuality is not a big contributor to one’s satisfaction about his/her life when they are either single or married, yet it greatly increases some married females' happiness.
+Figure \@ref(fig:figure2) compares the feelings about life between female and male when they are married or single and never married. For the group of singles, sexuality does not have a distinct influence on how they rate their feelings about life. Slightly more males than females rated their feelings for life between 7 and 8, but the number break even again between 9 and 10.  However, when it comes to married couples, it seems like some females tend to give extremely high scores(score of 10) on their feelings about life. This implies that for most of the times, sexuality is not a big contributor to one’s satisfaction about his/her life when they are either single or married, yet it greatly increases some married females' happiness.
 
-## Respondent income
+## Respondent income vs Feelings about life
 
 Figure \@ref(fig:figure3) indicates the effect on respondents' feelings about life by comparing the different income levels and it's divided by the marital status respectively. It is not hard to observe that the group of singles generally has a lower income level than the group of married people. In addition, by comparing within single respondents, it is interesting to find out that people with lower income levels feel better about their lives than people with higher income levels. This implies that personal income actually may have a considerable impact on the single people's feeling about life. For the married people, it seems like income level has no significant correlation with their feelings about life; a considerable number of respondents who earn less than \$25000 a year rated their feelings at a score of 10, while some respondents that earn over \$100000 a year only rated their feelings at a score of 8. 
 
@@ -137,9 +137,9 @@ gss<-gss%>%filter(marital_status=="Married"|marital_status=="Single, never marri
 ggplot(gss,aes(x=feelings_life,fill=income_respondent))+geom_bar(position = "dodge")+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "respondent income")+theme_minimal()
 ```
 
-## Average weekly working hours
+## Average weekly working hours vs Feelings about life
 
-Figure \@ref(fig:figure4) demonstrates the relationship between feelings about life and the weekly average working hours of single and married respondents It's not surprised to find that the single respondents  with heavy working hours of 40 hours or more tend to give higher scores on feeling about life. On the other hand, for married people, It seems that people with approximately 30-40 working hours every week feel happier about their lives.
+Figure \@ref(fig:figure4) demonstrates the relationship between feelings about life and the weekly average working hours of single and married respondents It's not surprised to find that the single respondents  with heavy working hours of 40 hours or more tend to give higher scores on feeling about life. On the other hand, for married people, It seems like people with approximately 30-40 working hours every week feel happier about their lives.
 
 \newpage
 ```{r figure4, echo = FALSE,warning=FALSE, fig.cap="Comparing the feelings about life between different levels of working hours of respondents for single and married people", fig.width=8, fig.height=4.1}
@@ -147,7 +147,7 @@ ggplot(gss,aes(x=feelings_life,fill=average_hours_worked))+geom_bar(position = "
 
 ```
 
-## Education
+## Education vs Feelings about life
 
 Figure \@ref(fig:figure5) shows that, as for married people, education level has some effect on feelings about life while it has little influence on single people. For married people, it seems that higher education level may lead to higher scores of feelings about life. Most of the married respondents with bachelor's degree or college certificate give higher scores of 8 or more on feeling about life, which indicates that married people with a relatively high education level may feel much happier about life.
 
@@ -161,12 +161,17 @@ ggplot(gss,aes(x=feelings_life,fill=education))+geom_bar(position = "dodge")+fac
 
 ## Ageing and Family life
 
-In section \@ref(age), we’ve discussed that older people with families tend to feel better about their lives compared to younger age groups, and at the same time, younger people that have not yet form families also tend to feel better about their lives when comparing to single elderly people. One possible explanation for this particular result is difference between young and old people in terms of their ideology, health conditions, and social status. Family would be a strong support for the elders who have high risks to experience illnesses, social isolation, and financial crisis. The younger generations, on the other hand, who are more capable of overcoming the crisis faced by the elders, often value the importance of having personal space and feeling controlled of their own lives more. Family has both advantages and drawbacks from looking at these two perspectives, so it’s not surprised that Canadians have such diverse attitudes towards family.
+In section \@ref(age-vs-feelings-about-life), we’ve discussed that older people with families tend to feel better about their lives compared to younger age groups, and at the same time, younger people that have not yet form families also tend to feel better about their lives when comparing to single elderly people. One possible explanation for this particular result is difference between young and old people in terms of their ideology, health conditions, and social status. Family would be a strong support for the elders who have high risks to experience illnesses, social isolation, and financial crisis. The younger generations, on the other hand, who are more capable of overcoming the crisis faced by the elders, often value the importance of having personal space and feeling controlled of their own lives more. Family has both advantages and drawbacks from looking at these two perspectives, so it’s not surprised that Canadians have such diverse attitudes towards family.
+
+## Gender
+
+Gender does not play a big role in terms of affecting the single and married respondents' feelings about life. One possible implication drawn from this result is that the gender roles in the Canadian society is weakened and the gender gap is gradually diminishing, which is a good sign. Men and women were no longer expected perform their traditional responsibilities either as individuals or as family members. Instead, their responsibilities become similar. As a result, we don't see much difference between the happiness of men and women when they are either single or married as presented in section \@ref(gender-vs-feelings-about-life). Further investigations on the roles of gender in Canadian society in terms of their characters as individuals or family members is needed to support this conclusion.
+
 
 ## Personal income
 
 From our perspective, it might be tempting to assume that people with higher incomes are likely to be happier because they have more purchasing power and higher consumption levels, making it easier for them to buy things than ordinary people who have to take a long time to save up for.
-However, in this paper, it’s quite surprising to find that people who are married with high income tend to be less happy than people who earn less. After consideration and discussion, the possible reasons are as follows: 
+However, in this paper, it’s quite surprising to find that people who are married with extremely high income tend to be less happy than people who earn less. After consideration and discussion, the possible reasons are as follows: 
 
 On one hand, people who have been married have more pressure about their family, not only the family daily expenses, but also a large proportion of possible expenses from raising children. For them, a large part of the high salary earned by hard work every day is for family expenses, and there may even be a feeling of being on the run all the time, which makes them feel less happy with life.
 
@@ -174,15 +179,15 @@ On the other hand, people who are single right now spend most of their salary on
 
 ## Working hours
 
-It's not hard to understand that long working hours may have negative effect on the people's feeling about life, since working for a long time with high intensity will definitely have a great impact on people both physically and psychologically. 
+It's not hard to understand that long working hours generally have negative effect on the people's feeling about life, since working for a long time with high intensity will definitely have a great impact on people both physically and psychologically. 
 
-However, it seems more obvious that long working hours have more impact on married people than single people. In our opinion, since married people may have more pressure from their family, it's quite normal for them to feel more relaxed if they have less working hours. They may be able to take a break and enjoy their life better.
+However, it seems more obvious that long working hours have more negative impact on the married respondents, while many single respondents generally feel less repulsive to work for longer hours. In our opinion, since married people have more burdens and concerns regarding family issues, it's quite normal that they feel more pressured and feel the need to be more relaxed by having less working hours. With less working hours, they may be able to take a break and enjoy their life better. The single respondents, on the other side, are less concerned with this issue and thus generally don't mind working for longer period of times.
 
-Although working hours are often positively correlated with income, as we have previously analyzed, higher income does not necessarily mean increased happiness with life, so working longer hours does not necessarily mean greater satisfaction and happiness with life.
+Since working hours are often positively correlated with income, as we have previously analyzed, higher income does not necessarily mean increased happiness with life, and working longer hours does not necessarily indicate greater satisfaction as well.
 
 ## Education
 
-In fact, most of the time, education has a certain relationship with the factor we discussed before, the working hours and personal income . It seems that nowadays, people with higher degrees tend to be able to find higher-paying jobs, but higher-paying jobs often mean longer working hours. 
+Most of the time, education has a certain relationship with the factor we discussed before, the working hours and personal income . It seems that nowadays, people with higher degrees tend to be able to find higher-paying jobs, but higher-paying jobs often mean longer working hours. 
 
 However, from the discussion above, we find that more personal income and working hours don't mean greater happiness. Thus, we consider the other reasons for education level leading to higher level of happiness. The biggest reason We can accept is that for the highly educated married people, they may have wider horizons and richer thoughts. Especially when faced with setbacks in life and feeling depressed, they can quickly deal with them and have a more positive attitude towards life. Moreover, in the family they are able to understand each other and accommodate with each other. As a result, family life is often more harmonious.
 
@@ -195,7 +200,9 @@ Moreover, due to the individual differences among different people, working long
 Besides, in fact, everyone's feelings towards life will be affected by many aspects. No matter personal thoughts or mentality, may have much influence on a person's feelings towards life. However, these are not reflected by a simple survey and table, which may produce deviations in our results.
 
 \newpage
-# Appendix
+# Appendix {-}
+# Supplementary Survey
+## Preamble
 
 \newpage
 
