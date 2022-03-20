@@ -10,7 +10,7 @@
 # then apply that dataset to the raw dataset. Finally we do all the usual cleaning.
 # to the dataset. You will end up with a dataset called gss.csv.
 # Authors: Alicia Yang ,Jiayi Du , Kaiyuan Yan
-# Contact: aliciam.yang@utoronto.ca, [], []
+# Contact: aliciam.yang@utoronto.ca, claire.du@mail.utoronto.ca, bruce.yan@mail.utoronto.ca
 # Date: 20 March 2020
 # License: MIT
 # Pre-reqs: You need to have downloaded the data from the library. To do that: 

@@ -4,6 +4,9 @@ This repo contains an R project file for my paper "Possible factors affecting Ca
 ## Overview
 In this paper, we conducted the research on the factors which may have an impact on people’s feelings about life based on the General Social Survey(GSS). After screening and comparison, we found that the factors that may affect people’s feelings about life in the survey include age, respondent income, sex, average working hours, education level and feelings about life.
 
+The GSS data used in this paper comes from Statistics Canada: https://www150.statcan.gc.ca/n1/pub/89f0115x/89f0115x2013001-eng.htm#a6.
+It can be also obtained from CHASS, the data centre of University of Toronto: http://dc.chass.utoronto.ca/myaccess.html.
+
 ## Files Structure
 This repo contains three folders: inputs, outputs, and scripts. 
 
