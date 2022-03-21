@@ -1,5 +1,5 @@
 ---
-title: "Investigating the possible aspects affecting Canadian individuals and families' feelings about life"
+title: "Investigating the possible Factors affecting Canadian Individuals and Families' Feelings about Life"
 author: 
   - Alicia Yang
   - Jiayi Du
