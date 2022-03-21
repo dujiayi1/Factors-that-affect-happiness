@@ -1,5 +1,5 @@
 # Factors-that-affect-happiness
-This repo contains an R project file for my paper "Possible factors affecting Canadian Family’s feelings about life".
+This repo contains an R project file for my paper ""Investigating the possible aspects affecting Canadian individuals and families' feelings about life".
 
 ## Overview
 In this paper, we conducted the research on the factors which may have an impact on people’s feelings about life based on the General Social Survey(GSS). After screening and comparison, we found that the factors that may affect people’s feelings about life in the survey include age, respondent income, sex, average working hours, education level and feelings about life.
