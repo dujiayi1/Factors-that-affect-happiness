@@ -10,7 +10,7 @@ It can be also obtained from CHASS, the data centre of University of Toronto: ht
 ## Files Structure
 This repo contains three folders: inputs, outputs, and scripts. 
 
-- Inputs folder contains the GSS data file, a dict.txt file and labels.txt file which provides information on the survey data 
+- Inputs folder contains the GSS data file, a dict.txt file and labels.txt file which provides information on the survey data. It also contains the QR Code and screenshots of the supplementary survey.
 - Outputs folder contains the paper, R Markdown file of the paper, and references
 - Script folder contains the R file that reorganizes and cleans the GSS family survey dataset
 
