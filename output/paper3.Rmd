@@ -30,7 +30,7 @@ A supplementary survey is provided in the Appendix in section \@ref(supplementar
 # Data
 
 ```{r include=FALSE}
-# Load GSS family data
+# Load GSS family data and clean
 gss<- read_csv(here::here("input/gss_family.csv"))
 gss <- gss %>% select(feelings_life,marital_status, age, sex, income_respondent, average_hours_worked, education) %>%
   mutate(age = case_when(
@@ -61,7 +61,7 @@ This paper focused on investigating 6 of these variables: age, sex, respondent's
 library(knitr)
 library(kableExtra)
 
-# Create a table
+# Create a table of the cleaned gss data
 gss_cleaned <- gss %>%
   drop_na() %>%
   slice(1:10) %>%
@@ -76,6 +76,7 @@ gss_cleaned
 Table \@ref(tab:dataextract) shows the first ten rows of the GSS Family dataset of interest .Variable “Age” indicates the age group of the survey respondents; it is used as a categorical variable in this paper for the purpose of comparing respondents by groups. Variable “Feelings about life” indicates how the respondents generally feel about their life from a scale of 0 to 10. Variable “Sex” indicates indicates the gender of the respondents. Variable “Marital Status” gives information on whether the respondents are single, living common-law, married, separated, divorced, or widowed; in this paper, we are only interested in the respondents who are either single or married. Variable "Average hours worked" shows the range of weekly working hours of the respondents. Variable “Personal income” indicates the range of personal income of the respondents from all possible sources each year.
 
 ```{r figure0, echo=FALSE, warning=FALSE, fig.cap="Comparing the rated feelings about life between single and married people", fig.width=7, fig.height=3.5}
+# plot showing feelings about life between single and married people
 ggplot(aes(x = feelings_life), data = gss)+geom_bar()+facet_wrap(~marital_status)+ylab("number of people")+xlab("feelings about life")+theme_minimal()
 ```
 
@@ -101,6 +102,7 @@ Some bias were associated with the GSS data. For instance, not all target popula
 # Results
 ## Age vs Feelings about life
 ```{r figure1, echo=FALSE, warning=FALSE, fig.cap="Comparing the rated feelings about life of different age groups between single and married people", fig.width=7, fig.height=3.5}
+# plot showing relationship between age and feelings about life for single and married people
 age_rate <- gss %>%
   select(age, feelings_life, marital_status) %>%
   drop_na() %>%
@@ -125,6 +127,7 @@ Figure \@ref(fig:figure2) compares the feelings about life between female and ma
 
 \newpage
 ```{r figure2, echo=FALSE, warning=FALSE, fig.cap="Comparing the feelings about life between male and female for single and married people", fig.width=7, fig.height=3.5}
+# plot showing relationship between gender and feelings about life for single and married people
 sex_rate <- gss %>%
   select(sex, feelings_life, marital_status) %>%
   drop_na()
@@ -141,6 +144,7 @@ gss<-gss%>%filter(marital_status=="Married"|marital_status=="Single, never marri
 ```
 
 ```{r figure3, echo = FALSE, warning=FALSE, fig.cap="Comparing the feelings about life between different levels of income of respondents for single and married people", fig.width=9, fig.height= 4.5}
+# plot showing relationship between income and feelings about life for single and married people
 ggplot(gss,aes(x=feelings_life,fill=income_respondent))+geom_bar(position = "dodge")+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "respondent income")+theme_minimal()
 ```
 
@@ -150,6 +154,7 @@ ggplot(gss,aes(x=feelings_life,fill=income_respondent))+geom_bar(position = "dod
 Figure \@ref(fig:figure4) demonstrates the relationship between feelings about life and the weekly average working hours of single and married respondents It's not surprised to find that the single respondents  with heavy working hours of 40 hours or more tend to give higher scores on feeling about life. On the other hand, for married people, It seems like people with approximately 30-40 working hours every week feel happier about their lives.
 
 ```{r figure4, echo = FALSE,warning=FALSE, fig.cap="Comparing the feelings about life between different levels of working hours of respondents for single and married people", fig.width=8, fig.height=4.1}
+# plot showing relationship between hours worked and feelings about life for single and married people
 ggplot(gss,aes(x=feelings_life,fill=average_hours_worked))+geom_bar(position = "dodge",binwidth = 1)+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "working hours")+theme_minimal()
 
 ```
@@ -160,6 +165,7 @@ ggplot(gss,aes(x=feelings_life,fill=average_hours_worked))+geom_bar(position = "
 Figure \@ref(fig:figure5) shows that, education level has some effect on the married respondents' feelings about life while it has little influence on the single respondents. For married people, it seems that higher education level may lead to higher scores of feelings about life. Most of the married respondents with bachelor's degree or college certificate give higher scores of 8 or more on feeling about life, which indicates that married people with a relatively high education level may feel much happier about life.
 
 ```{r figure5,echo=FALSE,warning=FALSE, fig.cap="Comparing the feelings about life between different levels of education of respondents for single and married people", fig.width=10, fig.height=4.8}
+# plot showing relationship between education and feelings about life for single and married people
 ggplot(gss,aes(x=feelings_life,fill=education))+geom_bar(position = "dodge")+facet_grid(.~marital_status)+ylab("number of people")+xlab("feelings about life")+scale_fill_discrete(name = "education level")+theme_minimal()
 
 ```
@@ -221,6 +227,7 @@ By proceeding with this survey you understand that your responses will be used t
 Below is the QR Code and the link of the survey.
 
 ```{r echo=FALSE, fig.cap="QR Code of the survey", out.width = '40%', fig.align="center"}
+#QR Code
 knitr::include_graphics("../input/QRCode.jpeg")
 ```
 Survey Link:
@@ -229,6 +236,7 @@ https://docs.google.com/forms/d/e/1FAIpQLSfCSQHzb-R61uIOLdmOCcdocRX9Ws-Z2NssHhxp
 
 ## Questions
 ```{r echo = FALSE, out.width = '70%', fig.align="center"}
+# survey questions
 knitr::include_graphics("../input/survey1.png")
 knitr::include_graphics("../input/survey2.png")
 knitr::include_graphics("../input/survey3.png")
